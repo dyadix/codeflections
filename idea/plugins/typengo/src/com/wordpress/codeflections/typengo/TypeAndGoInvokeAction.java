@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * @author Rustam Vishnyakov
+ * @author dyadix
  */
 public class TypeAndGoInvokeAction extends AnAction implements DumbAware {
 
@@ -22,7 +22,7 @@ public class TypeAndGoInvokeAction extends AnAction implements DumbAware {
         if (component == null) {
             component = anActionEvent.getInputEvent().getComponent();
         }
-        JFrame mnemonicsInputForm = new MnemonicsInputForm(calcPopupLocation(anActionEvent), component, anActionEvent);
+        JFrame mnemonicsInputForm = new CommandInputForm(calcPopupLocation(anActionEvent), component, anActionEvent);
         mnemonicsInputForm.setVisible(true);
     }
 
