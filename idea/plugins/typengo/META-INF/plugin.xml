@@ -21,7 +21,7 @@
 
   <actions>
       <action id="TypeAndGoInvoke"
-              class="com.wordpress.codeflections.typengo.TypeAndGoInvokeAction"
+              class="codeflections.typengo.TypeAndGoInvokeAction"
               text="Type&amp;Go Mnemonics"
               description="Type an abbreviation to invoke an action">
           <add-to-group group-id="EditorPopupMenu" anchor="last"/>

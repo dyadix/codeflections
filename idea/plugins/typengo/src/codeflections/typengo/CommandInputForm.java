@@ -1,4 +1,4 @@
-package com.wordpress.codeflections.typengo;
+package codeflections.typengo;
 
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
