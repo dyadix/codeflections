@@ -13,16 +13,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * @author Rustam Vishnyakov
+ * @author dyadix
  */
-public class MnemonicsInputForm extends JFrame {
+public class CommandInputForm extends JFrame {
     private JPanel topPanel;
-    private JTextField mnemonicsField;
+    private JTextField commandField;
     private final Component sourceComponent;
     private AnActionEvent originalEvent;
-    private String currMnemonics;
+    private String currTyped;
 
-    protected MnemonicsInputForm(Point location, Component sourceComponent, AnActionEvent originalEvent) {
+    protected CommandInputForm(Point location, Component sourceComponent, AnActionEvent originalEvent) {
         this.setUndecorated(true);
         this.sourceComponent = sourceComponent;
         this.originalEvent = originalEvent;
@@ -30,33 +30,33 @@ public class MnemonicsInputForm extends JFrame {
         this.add(topPanel);
         this.pack();
         this.setAlwaysOnTop(true);
-        mnemonicsField.setRequestFocusEnabled(true);
-        mnemonicsField.addActionListener(new ActionListener() {
+        commandField.setRequestFocusEnabled(true);
+        commandField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
-        mnemonicsField.addKeyListener(new KeyListener() {
+        commandField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 AnAction action = null;
                 boolean isEscape = false;
                 if (c == 27) {
-                        isEscape = true;
+                    isEscape = true;
                 } else if (Character.isLetter(c)) {
-                    currMnemonics = mnemonicsField.getText();
-                    if (currMnemonics != null) {
-                        currMnemonics += c;
-                        action = MnemonicMap.findAction(currMnemonics);
+                    currTyped = commandField.getText();
+                    if (currTyped != null) {
+                        currTyped += c;
+                        action = ActionFinder.findAction(currTyped);
                     }
                 }
                 if (action != null || isEscape) {
-                    MnemonicsInputForm.this.setVisible(false);
-                    MnemonicsInputForm.this.dispose();
+                    CommandInputForm.this.setVisible(false);
+                    CommandInputForm.this.dispose();
                     invokeAction(action);
-                    currMnemonics = null;
+                    currTyped = null;
                 }
             }
 
