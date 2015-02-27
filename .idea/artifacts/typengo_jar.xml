@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="typengo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/typengo_jar</output-path>
+    <root id="archive" name="typengo.jar">
+      <element id="module-output" name="typengo" />
+    </root>
+  </artifact>
+</component>
