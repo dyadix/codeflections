@@ -91,4 +91,8 @@ public class CommandInputForm extends JFrame {
         });
     }
 
+    public void reset() {
+        currTyped = null;
+        commandField.setText(null);
+    }
 }

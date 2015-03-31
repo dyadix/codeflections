@@ -9,7 +9,6 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.ui.awt.RelativePoint;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -17,14 +16,21 @@ import java.awt.*;
  */
 public class TypeAndGoInvokeAction extends AnAction implements DumbAware {
 
+    private CommandInputForm commandInputForm;
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         Component component = anActionEvent.getData(PlatformDataKeys.CONTEXT_COMPONENT);
         if (component == null) {
             component = anActionEvent.getInputEvent().getComponent();
         }
-        JFrame mnemonicsInputForm = new CommandInputForm(calcPopupLocation(anActionEvent), component, anActionEvent);
-        mnemonicsInputForm.setVisible(true);
+        if (commandInputForm == null) {
+            commandInputForm = new CommandInputForm(calcPopupLocation(anActionEvent), component, anActionEvent);
+        }
+        else {
+            commandInputForm.reset();
+        }
+        commandInputForm.setVisible(true);
     }
 
     private Point calcPopupLocation(@NotNull AnActionEvent actionEvent) {
