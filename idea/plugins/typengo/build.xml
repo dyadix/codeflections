@@ -1,0 +1,44 @@
+<project name="TypeNGo" default="all" basedir=".">
+  <property name="build" location="build"/>
+  <property name="classes" location="${build}/classes"/>
+  <property name="source" location="src"/>
+  <property name="meta-inf" location="META-INF"/>
+  <property name="dist" location="${build}/dist"/>
+  <property name="idea.platform" value="/bin/idea-IU-14.1/lib"/><!-- TODO: define in a separte file -->
+
+  <target name="all" depends="package"/>
+
+  <path id="classpath.id">
+    <fileset dir="${idea.platform}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes}"/>
+    <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" target="1.7" debug="off">
+      <classpath refid="classpath.id"/>
+    </javac>
+  </target>
+
+  <target name="make-jar" depends="compile">
+    <jar jarfile="${dist}/lib/typengo.jar">
+      <fileset dir="${classes}">
+        <include name="**/*.class"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="package" depends="make-jar">
+    <copy todir="${dist}/META-INF">
+      <fileset dir="${meta-inf}"/>
+    </copy>
+    <zip destfile="${build}/typengo.zip">
+      <zipfileset dir="${dist}"/>
+    </zip>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+</project>
