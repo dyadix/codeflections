@@ -1,25 +1,42 @@
 <project name="TypeNGo" default="all" basedir=".">
+  <property file="build.properties"/>
   <property name="build" location="build"/>
   <property name="classes" location="${build}/classes"/>
   <property name="source" location="src"/>
   <property name="meta-inf" location="META-INF"/>
   <property name="dist" location="${build}/dist"/>
-  <property name="idea.platform" value="/bin/idea-IU-14.1"/><!-- TODO: define in a separte file -->
-  <property name="forms.runtime" location="${idea.platform}/redist/forms_rt.jar"/>
+  <property name="forms.runtime" location="${idea.home}/redist/forms_rt.jar"/>
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
 
   <target name="all" depends="package"/>
 
   <path id="classpath.id">
-    <fileset dir="${idea.platform}/lib">
+    <fileset dir="${idea.home}/lib">
       <include name="*.jar"/>
     </fileset>
   </path>
 
-  <target name="compile">
+  <target name="compile" depends="register.custom.compilers">
     <mkdir dir="${classes}"/>
+    <javac2 srcdir="${source}" destdir="${classes}" debug="yes" fork="true" executable="${jdk.home}/bin/javac">
+      <classpath refid="classpath.id"/>
+    </javac2>
+    <!--
     <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" target="1.7" debug="on">
       <classpath refid="classpath.id"/>
     </javac>
+    -->
     <unjar src="${forms.runtime}" dest="${classes}">
       <patternset>
         <include name="**/core/*.class"/>
@@ -48,4 +65,6 @@
   <target name="clean">
     <delete dir="${build}"/>
   </target>
+
+
 </project>
