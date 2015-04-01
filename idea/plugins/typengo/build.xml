@@ -4,21 +4,27 @@
   <property name="source" location="src"/>
   <property name="meta-inf" location="META-INF"/>
   <property name="dist" location="${build}/dist"/>
-  <property name="idea.platform" value="/bin/idea-IU-14.1/lib"/><!-- TODO: define in a separte file -->
+  <property name="idea.platform" value="/bin/idea-IU-14.1"/><!-- TODO: define in a separte file -->
+  <property name="forms.runtime" location="${idea.platform}/redist/forms_rt.jar"/>
 
   <target name="all" depends="package"/>
 
   <path id="classpath.id">
-    <fileset dir="${idea.platform}">
+    <fileset dir="${idea.platform}/lib">
       <include name="*.jar"/>
     </fileset>
   </path>
 
   <target name="compile">
     <mkdir dir="${classes}"/>
-    <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" target="1.7" debug="off">
+    <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" target="1.7" debug="on">
       <classpath refid="classpath.id"/>
     </javac>
+    <unjar src="${forms.runtime}" dest="${classes}">
+      <patternset>
+        <include name="**/core/*.class"/>
+      </patternset>
+    </unjar>
     <copy todir="${classes}/META-INF">
       <fileset dir="${meta-inf}"/>
     </copy>
