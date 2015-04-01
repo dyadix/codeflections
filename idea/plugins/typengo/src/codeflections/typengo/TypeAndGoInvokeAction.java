@@ -16,21 +16,15 @@ import java.awt.*;
  */
 public class TypeAndGoInvokeAction extends AnAction implements DumbAware {
 
-    private CommandInputForm commandInputForm;
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
-        Component component = anActionEvent.getData(PlatformDataKeys.CONTEXT_COMPONENT);
-        if (component == null) {
-            component = anActionEvent.getInputEvent().getComponent();
+        if (!CommandInputForm.isShown()) {
+            Component component = anActionEvent.getData(PlatformDataKeys.CONTEXT_COMPONENT);
+            if (component == null) {
+                component = anActionEvent.getInputEvent().getComponent();
+            }
+            CommandInputForm.show(calcPopupLocation(anActionEvent), component, anActionEvent);
         }
-        if (commandInputForm == null) {
-            commandInputForm = new CommandInputForm(calcPopupLocation(anActionEvent), component, anActionEvent);
-        }
-        else {
-            commandInputForm.reset();
-        }
-        commandInputForm.setVisible(true);
     }
 
     private Point calcPopupLocation(@NotNull AnActionEvent actionEvent) {

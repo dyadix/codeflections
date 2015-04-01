@@ -22,7 +22,9 @@ public class CommandInputForm extends JFrame {
     private AnActionEvent originalEvent;
     private String currTyped;
 
-    protected CommandInputForm(Point location, Component sourceComponent, AnActionEvent originalEvent) {
+    private static CommandInputForm currInstance;
+
+    private CommandInputForm(Point location, Component sourceComponent, AnActionEvent originalEvent) {
         this.setUndecorated(true);
         this.sourceComponent = sourceComponent;
         this.originalEvent = originalEvent;
@@ -83,7 +85,7 @@ public class CommandInputForm extends JFrame {
 
     private void invokeAction(final AnAction action) {
         if (action == null) return;
-        ApplicationManager.getApplication().invokeLater(new Runnable(){
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
             @Override
             public void run() {
                 ActionUtil.performActionDumbAware(action, createNewEvent(action));
@@ -91,8 +93,16 @@ public class CommandInputForm extends JFrame {
         });
     }
 
-    public void reset() {
-        currTyped = null;
-        commandField.setText(null);
+    public static void show(Point location, Component sourceComponent, AnActionEvent originalEvent) {
+        if (currInstance != null) {
+            currInstance.setVisible(false);
+            currInstance.dispose();
+        }
+        currInstance = new CommandInputForm(location, sourceComponent, originalEvent);
+        currInstance.setVisible(true);
+    }
+
+    public static boolean isShown() {
+        return currInstance != null && currInstance.isVisible();
     }
 }
