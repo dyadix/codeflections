@@ -133,7 +133,12 @@ public class CommandInputForm extends JFrame {
         popupMenu.removeAll();
         Collection<ActionFinder.ActionInfo> foundActions = ActionFinder.findActions(typedStr);
         for (ActionFinder.ActionInfo actionInfo: foundActions) {
-            popupMenu.add(new JMenuItem(actionInfo.getAbbreviation() + ": " + actionInfo.getAction().toString()));
+            Presentation presentation = actionInfo.getAction().getTemplatePresentation();
+            popupMenu.add(new JMenuItem(
+                    "<html>" + "<b>" + actionInfo.getAbbreviation() + "</b>&nbsp;" +
+                            presentation.getText() +
+                            "&nbsp;(" + presentation.getDescription() + ")" +
+                            "</html>"));
         }
     }
 }
