@@ -4,6 +4,7 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.application.ApplicationManager;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Collection;
 
 /**
  * @author dyadix
@@ -32,9 +34,7 @@ public class CommandInputForm extends JFrame {
         this.setLocation(location);
         this.add(topPanel);
         this.pack();
-        popupMenu = new JPopupMenu("Foo");
-        popupMenu.add(new JMenuItem("More"));
-        popupMenu.add(new JMenuItem("COmmands"));
+        popupMenu = new JPopupMenu();
         topPanel.setComponentPopupMenu(popupMenu);
         this.setAlwaysOnTop(true);
         commandField.setRequestFocusEnabled(true);
@@ -50,6 +50,7 @@ public class CommandInputForm extends JFrame {
                 char c = e.getKeyChar();
                 AnAction action = null;
                 boolean isEscape = false;
+                boolean isCommandTyped = false;
                 if (c == 27) {
                     isEscape = true;
                 } else if (Character.isLetter(c)) {
@@ -58,22 +59,29 @@ public class CommandInputForm extends JFrame {
                         currTyped += c;
                         action = ActionFinder.findAction(currTyped);
                     }
-                    /*
-                    Point location = commandField.getLocationOnScreen();
-                    location = new Point(location.x, location.y + commandField.getHeight());
-                    popupMenu.setLocation(location);
-                    popupMenu.setVisible(true);
-                    */
+                    isCommandTyped = true;
                 }
                 else {
                     popupMenu.setVisible(false);
                 }
                 if (action != null || isEscape) {
+                    popupMenu.setVisible(false);
                     CommandInputForm.this.setVisible(false);
                     CommandInputForm.this.dispose();
                     invokeAction(action);
                     currTyped = null;
-                    popupMenu.setVisible(false);
+                }
+                else {
+                    if (isCommandTyped && currTyped != null) {
+                        updatePopup(popupMenu, currTyped);
+                        Point location = commandField.getLocationOnScreen();
+                        location = new Point(location.x, location.y + commandField.getHeight());
+                        popupMenu.setLocation(location);
+                        popupMenu.setVisible(true);
+                    }
+                    else {
+                        popupMenu.setVisible(false);
+                    }
                 }
             }
 
@@ -119,5 +127,13 @@ public class CommandInputForm extends JFrame {
 
     public static boolean isShown() {
         return currInstance != null && currInstance.isVisible();
+    }
+
+    private void updatePopup(@NotNull JPopupMenu popupMenu, @NotNull String typedStr) {
+        popupMenu.removeAll();
+        Collection<ActionFinder.ActionInfo> foundActions = ActionFinder.findActions(typedStr);
+        for (ActionFinder.ActionInfo actionInfo: foundActions) {
+            popupMenu.add(new JMenuItem(actionInfo.getAbbreviation() + ": " + actionInfo.getAction().toString()));
+        }
     }
 }
