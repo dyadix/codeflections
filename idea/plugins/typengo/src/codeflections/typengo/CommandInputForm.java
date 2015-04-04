@@ -21,6 +21,7 @@ public class CommandInputForm extends JFrame {
     private final Component sourceComponent;
     private AnActionEvent originalEvent;
     private String currTyped;
+    private final JPopupMenu popupMenu;
 
     private static CommandInputForm currInstance;
 
@@ -31,6 +32,10 @@ public class CommandInputForm extends JFrame {
         this.setLocation(location);
         this.add(topPanel);
         this.pack();
+        popupMenu = new JPopupMenu("Foo");
+        popupMenu.add(new JMenuItem("More"));
+        popupMenu.add(new JMenuItem("COmmands"));
+        topPanel.setComponentPopupMenu(popupMenu);
         this.setAlwaysOnTop(true);
         commandField.setRequestFocusEnabled(true);
         commandField.addActionListener(new ActionListener() {
@@ -53,23 +58,33 @@ public class CommandInputForm extends JFrame {
                         currTyped += c;
                         action = ActionFinder.findAction(currTyped);
                     }
+                    /*
+                    Point location = commandField.getLocationOnScreen();
+                    location = new Point(location.x, location.y + commandField.getHeight());
+                    popupMenu.setLocation(location);
+                    popupMenu.setVisible(true);
+                    */
+                }
+                else {
+                    popupMenu.setVisible(false);
                 }
                 if (action != null || isEscape) {
                     CommandInputForm.this.setVisible(false);
                     CommandInputForm.this.dispose();
                     invokeAction(action);
                     currTyped = null;
+                    popupMenu.setVisible(false);
                 }
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                // Ignore
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                // Ignore
+
             }
         });
     }
