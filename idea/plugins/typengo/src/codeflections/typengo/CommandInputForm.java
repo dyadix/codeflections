@@ -134,11 +134,20 @@ public class CommandInputForm extends JFrame {
         Collection<ActionFinder.ActionInfo> foundActions = ActionFinder.findActions(typedStr);
         for (ActionFinder.ActionInfo actionInfo: foundActions) {
             Presentation presentation = actionInfo.getAction().getTemplatePresentation();
-            popupMenu.add(new JMenuItem(
-                    "<html>" + "<b>" + actionInfo.getAbbreviation() + "</b>&nbsp;" +
-                            presentation.getText() +
-                            "&nbsp;(" + presentation.getDescription() + ")" +
-                            "</html>"));
+            StringBuilder sb = new StringBuilder();
+            sb.append("<html><b>").append(actionInfo.getAbbreviation()).append("</b>&nbsp;&nbsp;");
+            String desc = presentation.getDescription();
+            if (desc != null && !desc.isEmpty()) {
+                sb.append(desc);
+            }
+            else {
+                String text = presentation.getText();
+                if (text != null && !text.isEmpty()) {
+                    sb.append(text);
+                }
+            }
+            sb.append("</html>");
+            popupMenu.add(new JMenuItem(sb.toString()));
         }
     }
 }
