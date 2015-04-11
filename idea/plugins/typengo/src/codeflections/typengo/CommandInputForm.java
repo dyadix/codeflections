@@ -73,6 +73,7 @@ public class CommandInputForm extends JFrame {
                 }
                 else {
                     if (isCommandTyped && currTyped != null) {
+                        popupMenu.setVisible(false);
                         updatePopup(popupMenu, currTyped);
                         Point location = commandField.getLocationOnScreen();
                         location = new Point(location.x, location.y + commandField.getHeight());
