@@ -38,6 +38,12 @@ public class ActionFinder {
         BUILT_IN.put("dd", "EditorDeleteLine");
         BUILT_IN.put("su", "SurroundWith");
         //
+        // Find
+        //
+        BUILT_IN.put("fp", "FindInPath");
+        BUILT_IN.put("fa", "GotoAction");
+        BUILT_IN.put("sg", "SearchEverywhere");
+        //
         // Run/Debug
         //
         BUILT_IN.put("de", "DebugClass");
