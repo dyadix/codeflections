@@ -4,9 +4,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-
-import com.intellij.ui.awt.RelativePoint;
+import com.intellij.openapi.wm.IdeFrame;
+import com.intellij.openapi.wm.ex.WindowManagerEx;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -23,12 +22,7 @@ public class TypeAndGoInvokeAction extends AnAction implements DumbAware {
             if (component == null) {
                 component = anActionEvent.getInputEvent().getComponent();
             }
-            CommandInputForm.show(calcPopupLocation(anActionEvent), component, anActionEvent);
+            CommandInputForm.show(component, anActionEvent);
         }
-    }
-
-    private Point calcPopupLocation(@NotNull AnActionEvent actionEvent) {
-        RelativePoint point = JBPopupFactory.getInstance().guessBestPopupLocation(actionEvent.getDataContext());
-        return point.getScreenPoint();
     }
 }

@@ -4,6 +4,8 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.wm.IdeFrame;
+import com.intellij.openapi.wm.ex.WindowManagerEx;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -27,11 +29,10 @@ public class CommandInputForm extends JFrame {
 
     private static CommandInputForm currInstance;
 
-    private CommandInputForm(Point location, Component sourceComponent, AnActionEvent originalEvent) {
+    private CommandInputForm(Component sourceComponent, AnActionEvent originalEvent) {
         this.setUndecorated(true);
         this.sourceComponent = sourceComponent;
         this.originalEvent = originalEvent;
-        this.setLocation(location);
         this.add(topPanel);
         this.pack();
         popupMenu = new JPopupMenu();
@@ -117,12 +118,13 @@ public class CommandInputForm extends JFrame {
         });
     }
 
-    public static void show(Point location, Component sourceComponent, AnActionEvent originalEvent) {
+    public static void show(Component sourceComponent, AnActionEvent originalEvent) {
         if (currInstance != null) {
             currInstance.setVisible(false);
             currInstance.dispose();
         }
-        currInstance = new CommandInputForm(location, sourceComponent, originalEvent);
+        currInstance = new CommandInputForm(sourceComponent, originalEvent);
+        currInstance.centerOnIdeFrameOrScreen(originalEvent);
         currInstance.setVisible(true);
     }
 
@@ -150,5 +152,26 @@ public class CommandInputForm extends JFrame {
             sb.append("</html>");
             popupMenu.add(new JMenuItem(sb.toString()));
         }
+    }
+
+    private void centerOnIdeFrameOrScreen(@NotNull AnActionEvent actionEvent) {
+        WindowManagerEx windowManager = WindowManagerEx.getInstanceEx();
+        IdeFrame frame = windowManager.getFrame(actionEvent.getProject());
+        int x = 0;
+        int y = 0;
+        if (frame != null) {
+            Component frameComponent = frame.getComponent();
+            if (frameComponent != null) {
+                Point origin = frameComponent.getLocationOnScreen();
+                x = (int)(origin.getX() + (frameComponent.getWidth() - this.getWidth()) / 2);
+                y = (int)(origin.getY() + (frameComponent.getHeight() - this.getHeight()) / 2);
+            }
+        }
+        else {
+            Rectangle screenBounds = windowManager.getScreenBounds();
+            x = (int)(screenBounds.getX()  + (screenBounds.getWidth() - this.getWidth()) / 2);
+            y = (int)(screenBounds.getY() + (screenBounds.getHeight() - this.getHeight()) / 2);
+        }
+        this.setLocation(x, y);
     }
 }
