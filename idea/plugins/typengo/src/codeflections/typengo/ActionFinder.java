@@ -11,7 +11,7 @@ import java.util.*;
  * @author dyadix
  */
 public class ActionFinder {
-    private final static Map<String,String> BUILT_IN = new HashMap<>();
+    private final static Map<String,String> BUILT_IN = new HashMap<String,String>();
 
     static {
         //
@@ -109,7 +109,7 @@ public class ActionFinder {
 
     public static Collection<ActionInfo> findActions(String typedStr) {
         Set<String> abbreviations = AbbreviationManager.getInstance().getAbbreviations();
-        Map<String,ActionInfo> foundActions = new TreeMap<>();
+        Map<String,ActionInfo> foundActions = new TreeMap<String,ActionInfo>();
         for (String abbr : abbreviations) {
             if (abbr.startsWith(typedStr)) {
                 AnAction found = findAction(abbr);
