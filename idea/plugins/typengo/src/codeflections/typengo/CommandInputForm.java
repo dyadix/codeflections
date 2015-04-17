@@ -19,7 +19,7 @@ import java.util.Collection;
 /**
  * @author dyadix
  */
-public class CommandInputForm extends JFrame {
+public class CommandInputForm extends JDialog {
     private JPanel topPanel;
     private JTextField commandField;
     private final Component sourceComponent;
@@ -35,6 +35,7 @@ public class CommandInputForm extends JFrame {
         this.originalEvent = originalEvent;
         this.add(topPanel);
         this.pack();
+        this.setModal(true);
         popupMenu = new JPopupMenu();
         topPanel.setComponentPopupMenu(popupMenu);
         this.setAlwaysOnTop(true);
