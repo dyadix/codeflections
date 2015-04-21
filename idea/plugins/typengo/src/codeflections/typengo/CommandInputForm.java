@@ -46,34 +46,39 @@ public class CommandInputForm extends JDialog {
 
             }
         });
+        KeyStroke escKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        commandField.registerKeyboardAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popupMenu.setVisible(false);
+                CommandInputForm.this.setVisible(false);
+                CommandInputForm.this.dispose();
+                currTyped = null;
+            }
+        }, escKeyStroke, JComponent.WHEN_FOCUSED);
         commandField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 AnAction action = null;
-                boolean isEscape = false;
                 boolean isCommandTyped = false;
-                if (c == 27) {
-                    isEscape = true;
-                } else if (Character.isLetter(c)) {
+                if (Character.isLetter(c)) {
                     currTyped = commandField.getText();
                     if (currTyped != null) {
                         currTyped += c;
                         action = ActionFinder.findAction(currTyped);
                     }
                     isCommandTyped = true;
-                }
-                else {
+                } else {
                     popupMenu.setVisible(false);
                 }
-                if (action != null || isEscape) {
+                if (action != null) {
                     popupMenu.setVisible(false);
                     CommandInputForm.this.setVisible(false);
                     CommandInputForm.this.dispose();
                     invokeAction(action);
                     currTyped = null;
-                }
-                else {
+                } else {
                     if (isCommandTyped && currTyped != null) {
                         popupMenu.setVisible(false);
                         updatePopup(popupMenu, currTyped);
@@ -81,8 +86,7 @@ public class CommandInputForm extends JDialog {
                         location = new Point(location.x, location.y + commandField.getHeight());
                         popupMenu.setLocation(location);
                         popupMenu.setVisible(true);
-                    }
-                    else {
+                    } else {
                         popupMenu.setVisible(false);
                     }
                 }
