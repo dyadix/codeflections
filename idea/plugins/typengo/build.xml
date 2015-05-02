@@ -7,6 +7,7 @@
   <property name="dist" location="${build}/dist"/>
   <property name="forms.runtime" location="${idea.home}/redist/forms_rt.jar"/>
   <property name="javac2.home" value="${idea.home}/lib"/>
+  <property file="version-number.properties"/>
   <path id="javac2.classpath">
     <pathelement location="${javac2.home}/javac2.jar"/>
     <pathelement location="${javac2.home}/jdom.jar"/>
@@ -32,11 +33,6 @@
     <javac2 srcdir="${source}" destdir="${classes}" source="1.6" target="1.6" debug="yes" fork="true" executable="${jdk.home}/bin/javac">
       <classpath refid="classpath.id"/>
     </javac2>
-    <!--
-    <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" target="1.7" debug="on">
-      <classpath refid="classpath.id"/>
-    </javac>
-    -->
     <unjar src="${forms.runtime}" dest="${classes}">
       <patternset>
         <include name="**/core/*.class"/>
@@ -45,6 +41,7 @@
     <copy todir="${classes}/META-INF">
       <fileset dir="${meta-inf}"/>
     </copy>
+    <replace file="${classes}/META-INF/plugin.xml" token="%VERSION%" value="${version}"/>
   </target>
 
   <target name="make-jar" depends="compile">
@@ -57,7 +54,7 @@
   </target>
 
   <target name="package" depends="make-jar">
-    <zip destfile="${build}/typengo-plugin.zip">
+    <zip destfile="${build}/typengo-plugin-${version}.zip">
       <zipfileset dir="${dist}" prefix="TypeNGo"/>
     </zip>
   </target>
