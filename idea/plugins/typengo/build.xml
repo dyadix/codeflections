@@ -3,6 +3,7 @@
   <property name="build" location="build"/>
   <property name="classes" location="${build}/classes"/>
   <property name="source" location="src"/>
+  <property name="resources" location="resources"/>
   <property name="meta-inf" location="META-INF"/>
   <property name="dist" location="${build}/dist"/>
   <property name="forms.runtime" location="${idea.home}/redist/forms_rt.jar"/>
@@ -41,6 +42,9 @@
     <copy todir="${classes}/META-INF">
       <fileset dir="${meta-inf}"/>
     </copy>
+    <copy todir="${classes}">
+      <fileset dir="${resources}"/>
+    </copy>
     <replace file="${classes}/META-INF/plugin.xml" token="%VERSION%" value="${version}"/>
   </target>
 
@@ -49,6 +53,7 @@
       <fileset dir="${classes}">
         <include name="**/*.class"/>
         <include name="**/*.xml"/>
+        <include name="**/*.png"/>
       </fileset>
     </jar>
   </target>
