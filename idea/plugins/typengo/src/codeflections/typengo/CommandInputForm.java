@@ -62,7 +62,7 @@ public class CommandInputForm extends JDialog {
                 char c = e.getKeyChar();
                 AnAction action = null;
                 boolean isCommandTyped = false;
-                if (Character.isLetter(c)) {
+                if (Character.isLetter(c) || c == '-' || c == '+') {
                     currTyped = commandField.getText();
                     if (currTyped != null) {
                         currTyped += c;
