@@ -18,8 +18,7 @@ public class ActionFinder {
         // General
         //
         BUILT_IN.put("ps", "ShowProjectStructureSettings");
-        BUILT_IN.put("qs", "QuickChangeScheme");
-        BUILT_IN.put("se", "ShowSettings");
+        BUILT_IN.put("st", "ShowSettings");
         //
         // Navigation
         //
@@ -37,12 +36,13 @@ public class ActionFinder {
         //
         BUILT_IN.put("dd", "EditorDeleteLine");
         BUILT_IN.put("su", "SurroundWith");
+        BUILT_IN.put("du", "EditorDuplicateLines");
         //
         // Find
         //
         BUILT_IN.put("fp", "FindInPath");
         BUILT_IN.put("fa", "GotoAction");
-        BUILT_IN.put("sg", "SearchEverywhere");
+        BUILT_IN.put("se", "SearchEverywhere");
         //
         // Run/Debug
         //
@@ -60,6 +60,7 @@ public class ActionFinder {
         BUILT_IN.put("cm", "ChangesView.Commit");
         BUILT_IN.put("pu", "Vcs.Push");
         BUILT_IN.put("cp", "Vcs.CherryPick");
+        BUILT_IN.put("an", "Annotate");
         //
         // Format
         //
@@ -73,6 +74,11 @@ public class ActionFinder {
         // Other
         //
         BUILT_IN.put("rf", "RecentFiles");
+        BUILT_IN.put("cs", "ChangeCodeStyleScheme");
+        BUILT_IN.put("cc", "ChangeColorScheme");
+        BUILT_IN.put("km", "ChangeKeymap");
+        BUILT_IN.put("lf", "ChangeLaf");
+        BUILT_IN.put("vm", "ChangeView");
     }
 
 
