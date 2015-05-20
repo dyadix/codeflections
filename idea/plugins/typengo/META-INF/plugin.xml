@@ -4,10 +4,10 @@
   <version>%VERSION%</version>
   <vendor email="codeflections@gmail.com " url="http://codeflections.wordpress.com">Rustam V.</vendor>
 
-  <description>Extended key bindings</description>
+  <description>Replaces shortcuts with mnemonics. The only shortcut to remember is Type&amp;Go dialog invocation: Ctrl+\</description>
 
   <change-notes><![CDATA[
-      Modal Dialog
+      Initial versoin
       ]]>
   </change-notes>
 
