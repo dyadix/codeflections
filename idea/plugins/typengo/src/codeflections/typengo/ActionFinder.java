@@ -18,7 +18,7 @@ public class ActionFinder {
         // General
         //
         BUILT_IN.put("ps", "ShowProjectStructureSettings");
-        BUILT_IN.put("st", "ShowSettings");
+        BUILT_IN.put("ss", "ShowSettings");
         //
         // Navigation
         //
@@ -37,9 +37,20 @@ public class ActionFinder {
         BUILT_IN.put("dd", "EditorDeleteLine");
         BUILT_IN.put("su", "SurroundWith");
         BUILT_IN.put("du", "EditorDuplicateLines");
+        BUILT_IN.put("clp", "CloseAllUnpinnedEditors");
+        BUILT_IN.put("clu", "CloseAllUnmodifiedEditors");
+        BUILT_IN.put("cla", "CloseAllEditors");
+        BUILT_IN.put("clo", "CloseAllEditorsButActive");
+        //
+        // Tool Windows
+        //
+        BUILT_IN.put("te", "ActivateTerminalToolWindow");
+        BUILT_IN.put("pr", "ActivateProjectToolWindow");
+        BUILT_IN.put("vc", "ActivateChangesToolWindow");
         //
         // Find
         //
+        BUILT_IN.put("fu", "FindUsages");
         BUILT_IN.put("fp", "FindInPath");
         BUILT_IN.put("fa", "GotoAction");
         BUILT_IN.put("se", "SearchEverywhere");
@@ -61,6 +72,7 @@ public class ActionFinder {
         BUILT_IN.put("pu", "Vcs.Push");
         BUILT_IN.put("cp", "Vcs.CherryPick");
         BUILT_IN.put("an", "Annotate");
+        BUILT_IN.put("lh", "LocalHistory.ShowHistory");
         //
         // Format
         //
@@ -79,6 +91,7 @@ public class ActionFinder {
         BUILT_IN.put("km", "ChangeKeymap");
         BUILT_IN.put("lf", "ChangeLaf");
         BUILT_IN.put("vm", "ChangeView");
+        BUILT_IN.put("clt", "CloseActiveTab");
     }
 
 
