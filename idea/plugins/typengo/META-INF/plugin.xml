@@ -1,6 +1,6 @@
 <idea-plugin version="2">
   <id>codeflections.typengo</id>
-  <name>Type&amp;Go</name>
+  <name>TypeNGo</name>
   <version>%VERSION%</version>
   <idea-version since-build="141.1"/>
   <vendor email="codeflections@gmail.com " url="http://codeflections.wordpress.com">Rustam V.</vendor>
@@ -8,7 +8,8 @@
   <description>Replaces shortcuts with mnemonics. The only shortcut to remember is Type&amp;Go dialog invocation: Ctrl+\</description>
 
   <change-notes><![CDATA[
-      Initial versoin
+      Version 0.3:
+      * Another (safer) way to invoke actions.
       ]]>
   </change-notes>
 
