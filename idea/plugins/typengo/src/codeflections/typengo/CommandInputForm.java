@@ -1,9 +1,9 @@
 package codeflections.typengo;
 
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.actionSystem.ex.ActionUtil;
-import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +20,8 @@ import java.util.Collection;
  * @author dyadix
  */
 public class CommandInputForm extends JDialog {
+    private final static String TYPE_N_GO_PLACE = "TypeNGo Plugin";
+
     private JPanel topPanel;
     private JTextField commandField;
     private final Component sourceComponent;
@@ -104,23 +106,9 @@ public class CommandInputForm extends JDialog {
         });
     }
 
-    private AnActionEvent createNewEvent(AnAction action) {
-        final Presentation presentation = action.getTemplatePresentation().clone();
-        final DataContext context = DataManager.getInstance().getDataContext(sourceComponent);
-        return new AnActionEvent(originalEvent.getInputEvent(), context,
-                originalEvent.getPlace(), presentation,
-                com.intellij.openapi.actionSystem.ActionManager.getInstance(),
-                originalEvent.getModifiers());
-    }
-
     private void invokeAction(final AnAction action) {
         if (action == null) return;
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ActionUtil.performActionDumbAware(action, createNewEvent(action));
-            }
-        });
+        ActionManager.getInstance().tryToExecute(action, originalEvent.getInputEvent(), sourceComponent, TYPE_N_GO_PLACE, true);
     }
 
     public static void show(Component sourceComponent, AnActionEvent originalEvent) {
