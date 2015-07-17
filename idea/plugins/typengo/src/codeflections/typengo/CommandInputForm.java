@@ -4,7 +4,9 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.IdeFrame;
+import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +30,7 @@ public class CommandInputForm extends JDialog {
     private AnActionEvent originalEvent;
     private String currTyped;
     private final JPopupMenu popupMenu;
+    private final Project project;
 
     private static CommandInputForm currInstance;
 
@@ -104,11 +107,14 @@ public class CommandInputForm extends JDialog {
 
             }
         });
+        project = originalEvent.getProject();
     }
 
     private void invokeAction(final AnAction action) {
         if (action == null) return;
+        JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
         ActionManager.getInstance().tryToExecute(action, originalEvent.getInputEvent(), sourceComponent, TYPE_N_GO_PLACE, true);
+        if (ideFrame != null) ideFrame.requestFocus();
     }
 
     public static void show(Component sourceComponent, AnActionEvent originalEvent) {
