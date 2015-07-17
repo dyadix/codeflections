@@ -3,9 +3,13 @@
   <name>TypeNGo</name>
   <version>%VERSION%</version>
   <idea-version since-build="141.1"/>
-  <vendor email="codeflections@gmail.com " url="http://codeflections.wordpress.com">Rustam V.</vendor>
+  <vendor email="codeflections@gmail.com " url="http://codeflections.wordpress.com/typengo">Rustam V.</vendor>
 
-  <description>Replaces shortcuts with mnemonics. The only shortcut to remember is Type&amp;Go dialog invocation: Ctrl+\</description>
+  <description>
+      Replaces shortcuts with mnemonics. The only shortcut to remember is TypeNGo dialog invocation: Ctrl+\.
+      The default shortcut can be changed in Settings|Keymap|Invoke TypeNGo. Abbreviations can be assigned in
+      Settings|Keymap. See the link below for default abbreviations.
+  </description>
 
   <change-notes><![CDATA[
       Version 0.3:
@@ -24,7 +28,7 @@
   <actions>
       <action id="TypeAndGoInvoke"
               class="codeflections.typengo.TypeAndGoInvokeAction"
-              text="Type&amp;Go Mnemonics"
+              text="Invoke TypeNGo"
               description="Type an abbreviation to invoke an action">
           <add-to-group group-id="EditorPopupMenu" anchor="last"/>
           <keyboard-shortcut keymap="$default" first-keystroke="control BACK_SLASH"/>
