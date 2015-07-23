@@ -41,6 +41,14 @@ public class ActionFinder {
         BUILT_IN.put("clu", "CloseAllUnmodifiedEditors");
         BUILT_IN.put("cla", "CloseAllEditors");
         BUILT_IN.put("clo", "CloseAllEditorsButActive");
+        BUILT_IN.put("m{",  "EditorCodeBlockStart");
+        BUILT_IN.put("m}",  "EditorCodeBlockEnd");
+        BUILT_IN.put("s{",  "EditorCodeBlockStartWithSelection");
+        BUILT_IN.put("s}",  "EditorCodeBlockEndWithSelection");
+        BUILT_IN.put("s+",  "EditorSelectWord");
+        BUILT_IN.put("s-",  "EditorUnSelectWord");
+        BUILT_IN.put("f+",  "EditorIncreaseFontSize");
+        BUILT_IN.put("f-",  "EditorDecreaseFontSize");
         //
         // Tool Windows
         //
