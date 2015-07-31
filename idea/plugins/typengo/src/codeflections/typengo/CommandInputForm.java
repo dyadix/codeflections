@@ -71,7 +71,8 @@ public class CommandInputForm extends JDialog {
                     currTyped = commandField.getText();
                     if (currTyped != null) {
                         currTyped += c;
-                        action = ActionFinder.findAction(currTyped);
+                        ActionInfo actionInfo = ActionFinder.findAction(currTyped);
+                        action = actionInfo != null ? actionInfo.getAction() : null;
                     }
                     isCommandTyped = true;
                 } else {
@@ -133,23 +134,25 @@ public class CommandInputForm extends JDialog {
 
     private void updatePopup(@NotNull JPopupMenu popupMenu, @NotNull String typedStr) {
         popupMenu.removeAll();
-        Collection<ActionFinder.ActionInfo> foundActions = ActionFinder.findActions(typedStr);
-        for (ActionFinder.ActionInfo actionInfo: foundActions) {
-            Presentation presentation = actionInfo.getAction().getTemplatePresentation();
-            StringBuilder sb = new StringBuilder();
-            sb.append("<html><b>").append(actionInfo.getAbbreviation()).append("</b>&nbsp;&nbsp;");
-            String desc = presentation.getDescription();
-            if (desc != null && !desc.isEmpty()) {
-                sb.append(desc);
-            }
-            else {
-                String text = presentation.getText();
-                if (text != null && !text.isEmpty()) {
-                    sb.append(text);
+        Collection<ActionInfo> foundActions = ActionFinder.findActions(typedStr);
+        for (ActionInfo actionInfo: foundActions) {
+            AnAction action = actionInfo.getAction();
+            if (action != null) {
+                Presentation presentation = actionInfo.getAction().getTemplatePresentation();
+                StringBuilder sb = new StringBuilder();
+                sb.append("<html><b>").append(actionInfo.getAbbreviation()).append("</b>&nbsp;&nbsp;");
+                String desc = presentation.getDescription();
+                if (desc != null && !desc.isEmpty()) {
+                    sb.append(desc);
+                } else {
+                    String text = presentation.getText();
+                    if (text != null && !text.isEmpty()) {
+                        sb.append(text);
+                    }
                 }
+                sb.append("</html>");
+                popupMenu.add(new JMenuItem(sb.toString()));
             }
-            sb.append("</html>");
-            popupMenu.add(new JMenuItem(sb.toString()));
         }
     }
 
