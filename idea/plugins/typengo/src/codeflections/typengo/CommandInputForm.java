@@ -8,6 +8,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
+import com.intellij.ui.JBColor;
+import com.intellij.ui.LightColors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -151,7 +153,9 @@ public class CommandInputForm extends JDialog {
                     }
                 }
                 sb.append("</html>");
-                popupMenu.add(new JMenuItem(sb.toString()));
+                JMenuItem menuItem = new JMenuItem(sb.toString());
+                menuItem.setBackground(LightColors.YELLOW);
+                popupMenu.add(menuItem);
             }
         }
     }
