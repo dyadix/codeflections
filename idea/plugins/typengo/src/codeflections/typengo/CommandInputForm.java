@@ -115,7 +115,7 @@ public class CommandInputForm extends JDialog {
     private void invokeAction(final AnAction action) {
         if (action == null) return;
         JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
-        ActionManager.getInstance().tryToExecute(action, originalEvent.getInputEvent(), sourceComponent, TYPE_N_GO_PLACE, true);
+        ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
         if (ideFrame != null) ideFrame.requestFocus();
     }
 
