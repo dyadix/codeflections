@@ -11,7 +11,7 @@ import java.awt.*;
  * @author dyadix
  */
 public class DefaultActionRunner implements ActionRunner {
-    private AnAction action;
+    protected AnAction action;
 
     public DefaultActionRunner(@NotNull AnAction action) {
         this.action = action;

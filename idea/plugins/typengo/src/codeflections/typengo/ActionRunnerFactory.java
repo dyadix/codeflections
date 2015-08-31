@@ -10,6 +10,6 @@ public class ActionRunnerFactory {
 
     @NotNull
     public static ActionRunner createActionRunner(@NotNull AnAction action) {
-        return new DefaultActionRunner(action);
+        return new GotoActionRunner(action);
     }
 }
