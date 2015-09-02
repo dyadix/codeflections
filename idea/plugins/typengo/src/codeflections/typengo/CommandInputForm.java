@@ -10,6 +10,7 @@ import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import com.intellij.ui.LightColors;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +73,7 @@ public class CommandInputForm extends JDialog {
                     currTyped = commandField.getText();
                     if (currTyped != null) {
                         currTyped += c;
-                        ActionInfo actionInfo = ActionFinder.findAction(currTyped);
+                        ActionInfo actionInfo = ActionFinder.findAction(getActionId(currTyped));
                         action = actionInfo != null ? actionInfo.getAction() : null;
                     }
                     isCommandTyped = true;
@@ -80,11 +81,13 @@ public class CommandInputForm extends JDialog {
                     popupMenu.setVisible(false);
                 }
                 if (action != null) {
-                    popupMenu.setVisible(false);
-                    CommandInputForm.this.setVisible(false);
-                    CommandInputForm.this.dispose();
+                    if (!(currTyped.endsWith("+") || currTyped.endsWith("-"))) {
+                        popupMenu.setVisible(false);
+                        CommandInputForm.this.setVisible(false);
+                        CommandInputForm.this.dispose();
+                        currTyped = null;
+                    }
                     invokeAction(action);
-                    currTyped = null;
                 } else {
                     if (isCommandTyped && currTyped != null) {
                         popupMenu.setVisible(false);
@@ -117,6 +120,28 @@ public class CommandInputForm extends JDialog {
         JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
         ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
         if (ideFrame != null) ideFrame.requestFocus();
+    }
+
+    @NotNull
+    private String getActionId(@NotNull String typed) {
+        if (typed.length() > 0) {
+            char lastChar = typed.charAt(typed.length() - 1);
+            switch (lastChar) {
+                case '+':
+                    return stripRepeatingTrailingChar(typed, '+');
+                case '-':
+                    return stripRepeatingTrailingChar(typed, '-');
+            }
+        }
+        return typed;
+    }
+
+    @NotNull
+    private String stripRepeatingTrailingChar(@NotNull String typed, char c) {
+        int index = typed.length() - 1;
+        while (index >= 0 && typed.charAt(index) == c) index --;
+        index ++;
+        return typed.substring(0, index + 1);
     }
 
     public static void show(Component sourceComponent, AnActionEvent originalEvent) {
