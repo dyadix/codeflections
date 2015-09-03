@@ -47,8 +47,8 @@ public class BuiltInActions {
         define("s}", "EditorCodeBlockEndWithSelection");
         define("s+", "EditorSelectWord");
         define("s-", "EditorUnSelectWord");
-        define("f+", "EditorIncreaseFontSize");
-        define("f-", "EditorDecreaseFontSize");
+        define("fn+", "EditorIncreaseFontSize");
+        define("fn-", "EditorDecreaseFontSize");
         //
         // Tool Windows
         //
