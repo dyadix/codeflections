@@ -8,12 +8,16 @@
   <description>
       Replaces shortcuts with mnemonics. The only shortcut to remember is TypeNGo dialog invocation: Ctrl+\.
       The default shortcut can be changed in Settings|Keymap|Invoke TypeNGo. Abbreviations can be assigned in
-      Settings|Keymap. See the link below for default abbreviations.
+      Settings|Keymap.
   </description>
 
   <change-notes><![CDATA[
-      Version 0.3:
-      * Another (safer) way to invoke actions.
+  <html>
+      <ul>
+          <li>A fix for actions with popups.</li>
+          <li>'+' and '-' characters at the end allow to repeat a command by continuously pressing '+'/'-' again.</li>
+      </ul>
+  </html>
       ]]>
   </change-notes>
 
