@@ -4,6 +4,7 @@
   <version>%VERSION%</version>
   <idea-version since-build="141.1"/>
   <vendor email="codeflections@gmail.com " url="http://codeflections.wordpress.com/typengo">Rustam V.</vendor>
+  <depends>com.intellij.modules.platform</depends>
 
   <description>
       Replaces shortcuts with mnemonics. The only shortcut to remember is TypeNGo dialog invocation: Ctrl+\.
@@ -13,10 +14,7 @@
 
   <change-notes><![CDATA[
   <html>
-      <ul>
-          <li>A fix for actions with popups.</li>
-          <li>'+' and '-' characters at the end allow to repeat a command by continuously pressing '+'/'-' again.</li>
-      </ul>
+      <a href="https://raw.githubusercontent.com/dyadix/codeflections/master/idea/plugins/typengo/changes.log">Change Log</a>
   </html>
       ]]>
   </change-notes>
