@@ -1,5 +1,7 @@
 0.4
 
+- Fixed a problem with plug-in not enabled on PhpStorm/WebStorm.
+
 - Another way to invoke actions hopefully fixing "Modal actions disappear on invocation #1"
   (https://github.com/dyadix/codeflections/issues/1)
 
