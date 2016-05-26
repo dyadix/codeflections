@@ -31,7 +31,7 @@
 
   <target name="compile" depends="register.custom.compilers">
     <mkdir dir="${classes}"/>
-    <javac2 srcdir="${source}" destdir="${classes}" source="1.6" target="1.6" debug="yes" fork="true" executable="${jdk.home}/bin/javac">
+    <javac2 srcdir="${source}" destdir="${classes}" source="1.8" target="1.8" debug="yes" fork="true" executable="${jdk.home}/bin/javac">
       <classpath refid="classpath.id"/>
     </javac2>
     <unjar src="${forms.runtime}" dest="${classes}">
