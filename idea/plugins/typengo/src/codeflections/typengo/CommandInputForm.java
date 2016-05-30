@@ -1,6 +1,5 @@
 package codeflections.typengo;
 
-import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -10,7 +9,6 @@ import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import com.intellij.ui.LightColors;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +22,6 @@ import java.util.Collection;
  * @author dyadix
  */
 public class CommandInputForm extends JDialog {
-    private final static String TYPE_N_GO_PLACE = "TypeNGo Plugin";
 
     private JPanel topPanel;
     private JTextField commandField;
