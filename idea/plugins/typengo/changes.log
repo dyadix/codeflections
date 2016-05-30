@@ -1,5 +1,15 @@
 0.5
 
+- More default commands:
+
+  cle   Close current editor
+  rp    Recent projects
+  ai    Auto-indent Lines
+  xv    Extract (introduce) variable
+  xm    Extract method
+  xc    Extract (introduce) constant
+  ln    Toggle line numbers
+  
 - Fixed sudden focus loss on Linux in popup windows.
 
 0.4

@@ -19,6 +19,8 @@ public class BuiltInActions {
         //
         define("ps", "ShowProjectStructureSettings");
         define("ss", "ShowSettings");
+        define("rf", "RecentFiles");
+        define("rp", "ManageRecentProjects");
         //
         // Navigation
         //
@@ -41,6 +43,7 @@ public class BuiltInActions {
         define("clu", "CloseAllUnmodifiedEditors");
         define("cla", "CloseAllEditors");
         define("clo", "CloseAllEditorsButActive");
+        define("cle", "CloseEditor");
         define("m{", "EditorCodeBlockStart");
         define("m}", "EditorCodeBlockEnd");
         define("s{", "EditorCodeBlockStartWithSelection");
@@ -49,6 +52,7 @@ public class BuiltInActions {
         define("s-", "EditorUnSelectWord");
         define("fn+", "EditorIncreaseFontSize");
         define("fn-", "EditorDecreaseFontSize");
+        define("ln", "EditorToggleShowLineNumbers");
         //
         // Tool Windows
         //
@@ -86,6 +90,13 @@ public class BuiltInActions {
         //
         define("fm", "ReformatCode");
         define("oi", "OptimizeImports");
+        define("ai", "AutoIndentLines");
+        //
+        // Refactoring
+        //
+        define("xv", "IntroduceVariable");
+        define("xm", "ExtractMethod");
+        define("xc", "IntroduceConstant");
         //
         // Compilation
         //
@@ -93,7 +104,6 @@ public class BuiltInActions {
         //
         // Other
         //
-        define("rf", "RecentFiles");
         define("cs", "ChangeCodeStyleScheme");
         define("cc", "ChangeColorScheme");
         define("km", "ChangeKeymap");
