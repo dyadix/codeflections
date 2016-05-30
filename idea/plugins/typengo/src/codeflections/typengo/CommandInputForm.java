@@ -120,10 +120,8 @@ public class CommandInputForm extends JDialog {
         JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
         if (ideFrame != null) {
             ideFrame.requestFocus();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                // ignore
+            if (sourceComponent != null) {
+                sourceComponent.requestFocusInWindow();
             }
         }
         ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
