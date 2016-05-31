@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.LightColors;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +43,7 @@ public class CommandInputForm extends JDialog {
         this.setModal(true);
         popupMenu = new JPopupMenu();
         topPanel.setComponentPopupMenu(popupMenu);
+        topPanel.setBorder(BorderFactory.createLineBorder(JBColor.gray));
         this.setAlwaysOnTop(true);
         commandField.setRequestFocusEnabled(true);
         commandField.addActionListener(new ActionListener() {
