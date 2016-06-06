@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
@@ -118,12 +119,17 @@ public class CommandInputForm extends JDialog {
         if (action == null) return;
         JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
         if (ideFrame != null) {
-            ideFrame.requestFocus();
+            if (SystemInfo.isLinux) {
+                ideFrame.toFront();
+            }
+            else {
+                ideFrame.requestFocus();
+            }
             if (sourceComponent != null) {
                 sourceComponent.requestFocusInWindow();
+                ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
             }
         }
-        ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
     }
 
     @NotNull
@@ -148,7 +154,7 @@ public class CommandInputForm extends JDialog {
         return typed.substring(0, index + 1);
     }
 
-    public static void show(Component sourceComponent, AnActionEvent originalEvent) {
+    static void show(Component sourceComponent, AnActionEvent originalEvent) {
         if (currInstance != null) {
             currInstance.setVisible(false);
             currInstance.dispose();
@@ -158,7 +164,7 @@ public class CommandInputForm extends JDialog {
         currInstance.setVisible(true);
     }
 
-    public static boolean isShown() {
+    static boolean isShown() {
         return currInstance != null && currInstance.isVisible();
     }
 
