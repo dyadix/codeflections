@@ -3,13 +3,14 @@ package codeflections.typengo;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.editor.colors.EditorColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import com.intellij.ui.JBColor;
-import com.intellij.ui.LightColors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -171,6 +172,8 @@ public class CommandInputForm extends JDialog {
     private void updatePopup(@NotNull JPopupMenu popupMenu, @NotNull String typedStr) {
         popupMenu.removeAll();
         Collection<ActionInfo> foundActions = ActionFinder.findActions(typedStr);
+        Color backgroundColor = 
+                EditorColorsManager.getInstance().getGlobalScheme().getColor(EditorColors.NOTIFICATION_BACKGROUND);
         for (ActionInfo actionInfo: foundActions) {
             AnAction action = actionInfo.getAction();
             if (action != null) {
@@ -188,7 +191,7 @@ public class CommandInputForm extends JDialog {
                 }
                 sb.append("</html>");
                 JMenuItem menuItem = new JMenuItem(sb.toString());
-                menuItem.setBackground(LightColors.YELLOW);
+                menuItem.setBackground(backgroundColor);
                 popupMenu.add(menuItem);
             }
         }
