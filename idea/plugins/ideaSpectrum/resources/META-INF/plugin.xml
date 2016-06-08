@@ -27,7 +27,13 @@
   </extensions>
 
   <actions>
-    <!-- Add your actions here -->
+      <action id="IdeaSpectrum.Tune"
+              class="codeflections.ideaspectrum.TuneAction"
+              text="Tune Editor Colors"
+              description="Tune Editor Colors">
+          <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+          <keyboard-shortcut keymap="$default" first-keystroke="control alt BACK_SLASH"/>
+      </action>>
   </actions>
 
 </idea-plugin>
