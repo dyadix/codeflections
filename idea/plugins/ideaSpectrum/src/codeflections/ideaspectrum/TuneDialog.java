@@ -152,7 +152,7 @@ class TuneDialog extends DialogWrapper {
     }
     
     private int adjustComponent(int component, int change) {
-        return Math.min(255, (int)((component * (100. + change))/100 + 0.5));
+        return Math.max(0, Math.min(255, component + change));
     }
     
     private void rehighlight() {
