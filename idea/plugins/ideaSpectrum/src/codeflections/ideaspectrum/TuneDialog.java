@@ -2,6 +2,7 @@ package codeflections.ideaspectrum;
 
 import codeflections.ideaspectrum.algorithms.BrightnessAdjustmentAlgorithm;
 import codeflections.ideaspectrum.algorithms.ContrastAdjustmentAlgorithm;
+import codeflections.ideaspectrum.algorithms.SaturationAdjustmentAlgorithm;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
@@ -74,6 +75,15 @@ class TuneDialog extends DialogWrapper {
                         new ContrastAdjustmentAlgorithm(0.95f)
                 ),
                 BorderLayout.CENTER
+        );
+        centerPanel.add(
+                createButtonPanel(
+                        "S+",
+                        "S-",
+                        new SaturationAdjustmentAlgorithm(1.10f),
+                        new SaturationAdjustmentAlgorithm(0.9f)
+                ),
+                BorderLayout.SOUTH
         );
         return centerPanel;
     }
@@ -181,7 +191,9 @@ class TuneDialog extends DialogWrapper {
     private void adjustColors(@NotNull ColorKey key, ColorAdjustmentAlgorithm algorithm) {
         Color color = this.scheme.getColor(key);
         if (color == null) color = key.getDefaultColor();
-        scheme.setColor(key, algorithm.adjust(color));
+        if (color != null) {
+            scheme.setColor(key, algorithm.adjust(color));
+        }
     }
     
     private void rehighlight() {
