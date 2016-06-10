@@ -1,5 +1,7 @@
 package codeflections.ideaspectrum;
 
+import codeflections.ideaspectrum.algorithms.BrightnessAdjustmentAlgorithm;
+import codeflections.ideaspectrum.algorithms.ContrastAdjustmentAlgorithm;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
@@ -54,105 +56,132 @@ class TuneDialog extends DialogWrapper {
     @Override
     protected JComponent createCenterPanel() {
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new FlowLayout());
-        JButton brighter = new JButton("B+");
-        JButton darker = new JButton("B-");
-        brighter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeBrightness(+5);
-            }
-        });
-        darker.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeBrightness(-5);
-            }
-        });
-        centerPanel.add(darker, BorderLayout.WEST);
-        centerPanel.add(brighter, BorderLayout.EAST);
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.add(
+                createButtonPanel(
+                        "B+", 
+                        "B-",
+                        new BrightnessAdjustmentAlgorithm(+5),
+                        new BrightnessAdjustmentAlgorithm(-5)
+                ),
+                BorderLayout.NORTH
+        );
+        centerPanel.add(
+                createButtonPanel(
+                        "C+", 
+                        "C-",
+                        new ContrastAdjustmentAlgorithm(1.05f),
+                        new ContrastAdjustmentAlgorithm(0.95f)
+                ),
+                BorderLayout.CENTER
+        );
         return centerPanel;
     }
     
-    private void changeBrightness(int change) {
+    private JPanel createButtonPanel(@NotNull String incLabel, 
+                                     @NotNull String decLabel, 
+                                     @NotNull final ColorAdjustmentAlgorithm incAlgorithm,
+                                     @NotNull final ColorAdjustmentAlgorithm decAlgorithm) {
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        JButton incButton = new JButton(incLabel);
+        JButton decButton = new JButton(decLabel);
+        incButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adjustColors(incAlgorithm);
+            }
+        });
+        decButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adjustColors(decAlgorithm);
+            }
+        });
+        centerPanel.add(decButton, BorderLayout.WEST);
+        centerPanel.add(incButton, BorderLayout.EAST);
+        return centerPanel;
+    }
+    
+    private void adjustColors(ColorAdjustmentAlgorithm algorithm) {
         setSchemeToModify();
-        changeBrightness(HighlighterColors.TEXT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR, change);
-        changeBrightness(DefaultLanguageHighlighterColors.IDENTIFIER, change);
-        changeBrightness(DefaultLanguageHighlighterColors.STRING, change);
-        changeBrightness(DefaultLanguageHighlighterColors.KEYWORD, change);
-        changeBrightness(DefaultLanguageHighlighterColors.BLOCK_COMMENT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.LINE_COMMENT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.DOC_COMMENT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.OPERATION_SIGN, change);
-        changeBrightness(DefaultLanguageHighlighterColors.DOT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.SEMICOLON, change);
-        changeBrightness(DefaultLanguageHighlighterColors.COMMA, change);
-        changeBrightness(DefaultLanguageHighlighterColors.LABEL, change);
-        changeBrightness(DefaultLanguageHighlighterColors.CONSTANT, change);
-        changeBrightness(DefaultLanguageHighlighterColors.LOCAL_VARIABLE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.GLOBAL_VARIABLE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.FUNCTION_DECLARATION, change);
-        changeBrightness(DefaultLanguageHighlighterColors.FUNCTION_CALL, change);
-        changeBrightness(DefaultLanguageHighlighterColors.PARAMETER, change);
-        changeBrightness(DefaultLanguageHighlighterColors.CLASS_NAME, change);
-        changeBrightness(DefaultLanguageHighlighterColors.INTERFACE_NAME, change);
-        changeBrightness(DefaultLanguageHighlighterColors.CLASS_REFERENCE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.INSTANCE_METHOD, change);
-        changeBrightness(DefaultLanguageHighlighterColors.INSTANCE_FIELD, change);
-        changeBrightness(DefaultLanguageHighlighterColors.STATIC_METHOD, change);
-        changeBrightness(DefaultLanguageHighlighterColors.STATIC_FIELD, change);
-        changeBrightness(DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP, change);
-        changeBrightness(DefaultLanguageHighlighterColors.DOC_COMMENT_TAG, change);
-        changeBrightness(DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL, change);
-        changeBrightness(DefaultLanguageHighlighterColors.METADATA, change);
-        changeBrightness(DefaultLanguageHighlighterColors.MARKUP_TAG, change);
-        changeBrightness(DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE, change);
-        changeBrightness(DefaultLanguageHighlighterColors.MARKUP_ENTITY, change);
-        changeBrightness(DefaultLanguageHighlighterColors.BRACES, change);
-        changeBrightness(DefaultLanguageHighlighterColors.BRACKETS, change);
-        changeBrightness(DefaultLanguageHighlighterColors.PARENTHESES, change);
-        changeBrightness(EditorColors.CARET_ROW_COLOR, change);
+        adjustColors(HighlighterColors.TEXT, algorithm, true, true);
+        adjustColors(DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR, algorithm, false, true);
+        adjustColors(DefaultLanguageHighlighterColors.IDENTIFIER, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.STRING, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.KEYWORD, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.BLOCK_COMMENT, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.LINE_COMMENT, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.DOC_COMMENT, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.OPERATION_SIGN, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.DOT, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.SEMICOLON, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.COMMA, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.LABEL, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.CONSTANT, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.LOCAL_VARIABLE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.GLOBAL_VARIABLE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.FUNCTION_DECLARATION, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.FUNCTION_CALL, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.PARAMETER, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.CLASS_NAME, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.INTERFACE_NAME, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.CLASS_REFERENCE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.INSTANCE_METHOD, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.INSTANCE_FIELD, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.STATIC_METHOD, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.STATIC_FIELD, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.DOC_COMMENT_TAG, algorithm, true, true);
+        adjustColors(DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.METADATA, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.MARKUP_TAG, algorithm, true, true);
+        adjustColors(DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.MARKUP_ENTITY, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.BRACES, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.BRACKETS, algorithm);
+        adjustColors(DefaultLanguageHighlighterColors.PARENTHESES, algorithm);
+        adjustColors(EditorColors.CARET_ROW_COLOR, algorithm);
         rehighlight();
     }
     
-    private void changeBrightness(@NotNull TextAttributesKey key, int change) {
-        TextAttributes textAttributes = this.scheme.getAttributes(key).clone();
-        if (textAttributes == null) textAttributes = new TextAttributes();
-        Color background = textAttributes.getBackgroundColor();
-        if (background == null) {
-            background = this.scheme.getDefaultBackground();
+    private void adjustColors(
+            @NotNull TextAttributesKey key, 
+            @NotNull ColorAdjustmentAlgorithm algorithm) {
+        adjustColors(key, algorithm, true, false);
+    }
+    
+    private void adjustColors(
+            @NotNull TextAttributesKey key, 
+            @NotNull ColorAdjustmentAlgorithm algorithm,
+            boolean adjustForeground,
+            boolean adjustBackground) {
+        TextAttributes textAttributes = this.scheme.getAttributes(key);
+        textAttributes = textAttributes != null ? textAttributes.clone() : new TextAttributes();
+        if (adjustForeground) {
+            Color foreground = textAttributes.getForegroundColor();
+            if (foreground == null) {
+                foreground = this.scheme.getDefaultForeground();
+            }
+            textAttributes.setForegroundColor(algorithm.adjust(foreground));
         }
-        textAttributes.setBackgroundColor(changeBrightness(background, change));
-        Color foreground = textAttributes.getForegroundColor();
-        if (foreground == null) {
-            foreground = this.scheme.getDefaultForeground();
+        if (adjustBackground) {
+            Color background = textAttributes.getBackgroundColor();
+            if (background == null) {
+                background = this.scheme.getDefaultBackground();
+            }
+            textAttributes.setBackgroundColor(algorithm.adjust(background));
         }
-        textAttributes.setForegroundColor(changeBrightness(foreground, change));
         scheme.setAttributes(key, textAttributes);
     }
     
-    private void changeBrightness(@NotNull ColorKey key, int change) {
+    private void adjustColors(@NotNull ColorKey key, ColorAdjustmentAlgorithm algorithm) {
         Color color = this.scheme.getColor(key);
         if (color == null) color = key.getDefaultColor();
-        scheme.setColor(key, changeBrightness(color, change));
-    }
-    
-    private Color changeBrightness(@NotNull Color color, int change) {
-        int r = color.getRed();
-        int g = color.getGreen();
-        int b = color.getBlue();
-        int newR = adjustComponent(r, change);
-        int newG = adjustComponent(g, change);
-        int newB = adjustComponent(b, change);
-        return new Color(newR , newG, newB);
-    }
-    
-    private int adjustComponent(int component, int change) {
-        return Math.max(0, Math.min(255, component + change));
+        scheme.setColor(key, algorithm.adjust(color));
     }
     
     private void rehighlight() {
