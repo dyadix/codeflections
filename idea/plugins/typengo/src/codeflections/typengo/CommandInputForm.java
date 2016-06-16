@@ -12,6 +12,7 @@ import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.WindowManagerEx;
 import com.intellij.ui.JBColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,17 +33,18 @@ public class CommandInputForm extends JDialog {
     private AnActionEvent originalEvent;
     private String currTyped;
     private final JPopupMenu popupMenu;
-    private final Project project;
+    private final JFrame ideFrame;
 
     private static CommandInputForm currInstance;
 
-    private CommandInputForm(Component sourceComponent, AnActionEvent originalEvent) {
+    private CommandInputForm(final JFrame ideFrame, Component sourceComponent, AnActionEvent originalEvent) {
+        super(ideFrame, true);
+        this.ideFrame = ideFrame;
         this.setUndecorated(true);
         this.sourceComponent = sourceComponent;
         this.originalEvent = originalEvent;
         this.add(topPanel);
         this.pack();
-        this.setModal(true);
         popupMenu = new JPopupMenu();
         topPanel.setComponentPopupMenu(popupMenu);
         topPanel.setBorder(BorderFactory.createLineBorder(JBColor.gray));
@@ -62,6 +64,7 @@ public class CommandInputForm extends JDialog {
                 CommandInputForm.this.setVisible(false);
                 CommandInputForm.this.dispose();
                 currTyped = null;
+                focusOnIdeFrame(ideFrame);
             }
         }, escKeyStroke, JComponent.WHEN_FOCUSED);
         commandField.addKeyListener(new KeyListener() {
@@ -113,24 +116,36 @@ public class CommandInputForm extends JDialog {
 
             }
         });
-        project = originalEvent.getProject();
     }
 
     private void invokeAction(final AnAction action) {
-        if (action == null) return;
-        JFrame ideFrame = project != null ? WindowManager.getInstance().getFrame(project) : null;
+        if (action != null && sourceComponent != null) {
+            focusOnIdeFrame(ideFrame);
+            ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
+        }
+    }
+
+    private boolean focusOnIdeFrame(@Nullable JFrame ideFrame) {
         if (ideFrame != null) {
             if (SystemInfo.isLinux) {
-                ideFrame.toFront();
-            }
-            else {
+                if (!ideFrame.isFocused()) {
+                    ideFrame.toFront();
+                    ideFrame.requestFocus();
+                }
+            } else {
                 ideFrame.requestFocus();
             }
             if (sourceComponent != null) {
                 sourceComponent.requestFocusInWindow();
-                ActionRunnerFactory.createActionRunner(action).runAction(sourceComponent, originalEvent);
             }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // Ignore
+            }
+            return true;
         }
+        return false;
     }
 
     @NotNull
@@ -160,13 +175,17 @@ public class CommandInputForm extends JDialog {
             currInstance.setVisible(false);
             currInstance.dispose();
         }
-        currInstance = new CommandInputForm(sourceComponent, originalEvent);
+        currInstance = new CommandInputForm(getIdeFrame(originalEvent.getProject()), sourceComponent, originalEvent);
         currInstance.centerOnIdeFrameOrScreen(originalEvent);
         currInstance.setVisible(true);
     }
 
     static boolean isShown() {
         return currInstance != null && currInstance.isVisible();
+    }
+    
+    private static JFrame getIdeFrame(@Nullable Project project) {
+        return project != null ? WindowManager.getInstance().getFrame(project) : null;
     }
 
     private void updatePopup(@NotNull JPopupMenu popupMenu, @NotNull String typedStr) {
