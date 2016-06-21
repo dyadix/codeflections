@@ -12,6 +12,7 @@
   
 - Fixed sudden focus loss on Linux in popup windows.
 - Customizable command list popup background via Settings|Editor|Colors and Fonts|General|Editor|Notification background.
+- Using console font from current color scheme settings.
 
 0.4
 

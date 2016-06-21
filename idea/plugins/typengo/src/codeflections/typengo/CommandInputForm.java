@@ -5,6 +5,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.editor.colors.EditorFontType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.IdeFrame;
@@ -44,6 +46,9 @@ public class CommandInputForm extends JDialog {
         this.sourceComponent = sourceComponent;
         this.originalEvent = originalEvent;
         this.add(topPanel);
+        EditorColorsScheme scheme = EditorColorsManager.getInstance().getGlobalScheme();
+        Font commandFont = new Font(scheme.getConsoleFontName(), Font.PLAIN, scheme.getConsoleFontSize());
+        commandField.setFont(commandFont);
         this.pack();
         popupMenu = new JPopupMenu();
         topPanel.setComponentPopupMenu(popupMenu);
