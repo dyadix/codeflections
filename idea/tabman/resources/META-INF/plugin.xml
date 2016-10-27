@@ -1,0 +1,33 @@
+<idea-plugin version="2">
+  <id>codeflections.tabman</id>
+  <name>TaBman</name>
+  <version>1.0</version>
+  <vendor email="codeflections@gmail.com" url="http://codeflections.wordpress.com">Rustam V.</vendor>
+
+  <description><![CDATA[
+      Forces tabs even for alignment.
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Initial version
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="163.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <postFormatProcessor implementation="codeflections.tabman.TabEnforcementPostprocessor"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>

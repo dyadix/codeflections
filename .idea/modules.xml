@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/idea/colorSchemes/colorSchemes.iml" filepath="$PROJECT_DIR$/idea/colorSchemes/colorSchemes.iml" />
       <module fileurl="file://$PROJECT_DIR$/idea/plugins/ideaSpectrum/ideaSpectrum.iml" filepath="$PROJECT_DIR$/idea/plugins/ideaSpectrum/ideaSpectrum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/idea/tabman/tabman.iml" filepath="$PROJECT_DIR$/idea/tabman/tabman.iml" />
       <module fileurl="file://$PROJECT_DIR$/idea/plugins/typengo/typengo.iml" filepath="$PROJECT_DIR$/idea/plugins/typengo/typengo.iml" />
     </modules>
   </component>
